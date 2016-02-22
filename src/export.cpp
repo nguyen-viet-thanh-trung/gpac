@@ -833,6 +833,7 @@
 #pragma comment (linker, EXPORT_SYMBOL(gf_isom_get_adobe_protection_info) )
 #pragma comment (linker, EXPORT_SYMBOL(gf_isom_get_sample_group_info) )
 #pragma comment (linker, EXPORT_SYMBOL(gf_isom_get_tile_info) )
+#pragma comment (linker, EXPORT_SYMBOL(gf_isom_get_oinf_info) )
 #pragma comment (linker, EXPORT_SYMBOL(gf_isom_get_udta_count) )
 #pragma comment (linker, EXPORT_SYMBOL(gf_isom_get_udta_type) )
 
