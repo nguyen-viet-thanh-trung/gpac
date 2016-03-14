@@ -3742,7 +3742,7 @@ GF_Err mp4v_AddBox(GF_Box *s, GF_Box *a)
 		if (ptr->svc_config) ERROR_ON_DUPLICATED_BOX(a, ptr)
 			ptr->svc_config = (GF_AVCConfigurationBox *)a;
 		break;
-	case GF_ISOM_BOX_TYPE_SHCC:
+	case GF_ISOM_BOX_TYPE_LHVC:
 		if (ptr->shvc_config) ERROR_ON_DUPLICATED_BOX(a, ptr)
 			ptr->shvc_config = (GF_HEVCConfigurationBox *)a;
 		break;
@@ -5155,8 +5155,8 @@ GF_Err stsd_AddBox(GF_SampleDescriptionBox *ptr, GF_Box *a)
 	case GF_ISOM_BOX_TYPE_HVC2:
 	case GF_ISOM_BOX_TYPE_HEV2:
 	case GF_ISOM_BOX_TYPE_HVT1:
-	case GF_ISOM_BOX_TYPE_SHC1:
-	case GF_ISOM_BOX_TYPE_SHV1:
+	case GF_ISOM_BOX_TYPE_LHV1:
+	case GF_ISOM_BOX_TYPE_LHE1:
 	case GF_ISOM_BOX_TYPE_TX3G:
 	case GF_ISOM_BOX_TYPE_TEXT:
 	case GF_ISOM_BOX_TYPE_ENCT:
@@ -6415,8 +6415,8 @@ static void gf_isom_check_sample_desc(GF_TrackBox *trak)
 		case GF_ISOM_BOX_TYPE_HVC2:
 		case GF_ISOM_BOX_TYPE_HEV2:
 		case GF_ISOM_BOX_TYPE_HVT1:
-		case GF_ISOM_BOX_TYPE_SHC1:
-		case GF_ISOM_BOX_TYPE_SHV1:
+		case GF_ISOM_BOX_TYPE_LHV1:
+		case GF_ISOM_BOX_TYPE_LHE1:
 		case GF_ISOM_BOX_TYPE_TX3G:
 		case GF_ISOM_BOX_TYPE_TEXT:
 		case GF_ISOM_BOX_TYPE_ENCT:
@@ -8748,7 +8748,7 @@ static void *sgpd_parse_entry(u32 grouping_type, GF_BitStream *bs, u32 entry_siz
 	{
 		u32 flags = gf_bs_peek_bits(bs, 24, 0);
 		flags &= 0x0000FF;
-		if (flags & 0x20) entry_size=9;
+		if (flags & 0x20) entry_size=7;
 		else entry_size=11;
 		//fallthrough
 	}
@@ -8775,7 +8775,6 @@ static void	sgpd_del_entry(u32 grouping_type, void *entry)
 	case GF_4CC( 's', 'e', 'i', 'g' ):
 		gf_free(entry);
 		return;
-
 	default:
 	{
 		GF_DefaultSampleGroupDescriptionEntry *ptr = (GF_DefaultSampleGroupDescriptionEntry *)entry;
@@ -8800,7 +8799,7 @@ void sgpd_write_entry(u32 grouping_type, void *entry, GF_BitStream *bs)
 		gf_bs_write_u24(bs, ((GF_CENCSampleEncryptionGroupEntry *)entry)->IsEncrypted);
 		gf_bs_write_u8(bs, ((GF_CENCSampleEncryptionGroupEntry *)entry)->IV_size);
 		gf_bs_write_data(bs, (char *)((GF_CENCSampleEncryptionGroupEntry *)entry)->KID, 16);
-		return;
+		return; 
 	default:
 	{
 		GF_DefaultSampleGroupDescriptionEntry *ptr = (GF_DefaultSampleGroupDescriptionEntry *)entry;
