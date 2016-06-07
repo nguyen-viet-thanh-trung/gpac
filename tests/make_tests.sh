@@ -319,7 +319,7 @@ MP4CLIENT="MP4Client"
 
 if [ $do_clean = 0 ] ; then
 
-`MP4Client -run-for 0 2> /dev/null`
+`MP4Client -run-for 0`
 res=$?
 if [ $res != 0 ] ; then
 echo ""
